@@ -1,0 +1,83 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProgressTable.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:model="using:ProgressTable.Models"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ProgressTable.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="ProgressTable">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Window.Styles>
+		<StyleInclude Source="/Styles/Style.axaml"/>
+	</Window.Styles>
+
+	<Grid ColumnDefinitions="*" RowDefinitions="25, *, 50">
+		<DockPanel Grid.Column="0" Grid.Row="0">
+			<Menu DockPanel.Dock="Top" VerticalAlignment="Top">
+				<MenuItem Header="File">
+					<MenuItem Name="SaveBtn" Header="Save"/>
+					<MenuItem Name="LoadBtn" Header="Load"/>
+					<MenuItem Name="ExitBtn" Header="Exit"/>
+				</MenuItem>
+				<MenuItem Click="AboutPage" Header="About"/>
+			</Menu>
+		</DockPanel>
+
+		<DataGrid Items="{Binding StudentList}" Grid.Column="0" Grid.Row="1" CanUserReorderColumns="False">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="ФИО" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="model:Student">
+							<TextBox Classes="textBox" Text="{Binding Fio}"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Математика" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="model:Student">
+							<TextBox Classes="textBox" Background="{Binding ItemList[0].Color}" LostFocus="CellEdited" Text="{Binding ItemList[0].Grade}"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="ТРПО" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="model:Student">
+							<TextBox Classes="textBox" Background="{Binding ItemList[1].Color}" LostFocus="CellEdited" Text="{Binding ItemList[1].Grade}"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Визуальное программирование" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="model:Student">
+							<TextBox Classes="textBox" Background="{Binding ItemList[2].Color}" LostFocus="CellEdited" Text="{Binding ItemList[2].Grade}"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Средний балл" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="model:Student">
+							<TextBox Classes="textBox" Focusable="False" Background="{Binding AverageColor}" Text="{Binding Average}"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridCheckBoxColumn Header="Выбрать" Binding="{Binding IsSelected}" Width="*"/>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<Grid ColumnDefinitions="*, *, *, *, *, *" RowDefinitions="*" Grid.Column="0" Grid.Row="2">
+			<TextBox Classes="textBox" FontSize="20" Grid.Column="0" Text="Средний балл"/>
+			<TextBox Classes="textBox" Grid.Column="1" Text="{Binding ItemsAverageList[0].Grade}" Background="{Binding ItemsAverageList[0].Color}" Focusable="False"/>
+			<TextBox Classes="textBox" Grid.Column="2" Text="{Binding ItemsAverageList[1].Grade}" Background="{Binding ItemsAverageList[1].Color}" Focusable="False"/>
+			<TextBox Classes="textBox" Grid.Column="3" Text="{Binding ItemsAverageList[2].Grade}" Background="{Binding ItemsAverageList[2].Color}" Focusable="False"/>
+			<Button Classes="btn" Command="{Binding Add}" Content="Добавить студента" Grid.Column="4"/>
+			<Button Classes="btn" Command="{Binding Remove}" Content="Удалить выбранные" Grid.Column="5"/>
+		</Grid>
+	</Grid>
+</Window>
+
